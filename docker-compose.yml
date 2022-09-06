@@ -1,0 +1,22 @@
+version: "3"
+services:
+
+  server:
+    build: server/
+    command: python3 ./server.py
+    ports:
+      - 8888:8888
+
+  client:
+    build: client/
+    command: python3 ./client.py
+    network_mode: host
+    depends_on:
+      - server
+
+  test:
+    build: tests/
+    command: python3 -m pytest ./test_server.py
+    network_mode: host
+    depends_on:
+      - server
